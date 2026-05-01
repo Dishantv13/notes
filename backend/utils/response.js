@@ -1,7 +1,8 @@
+import { HTTP_STATUS } from "./httpCode.js";
 const successResponse = (
   res,
   data = null,
-  statusCode = 200,
+  statusCode = HTTP_STATUS.OK,
   message = "Success",
   pagination = null,
 ) => {

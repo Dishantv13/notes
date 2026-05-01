@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { X, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import api from '../services/api';
-import { AUTH_URLS } from '../enum/apiUrl';
-import { useToast } from '../context/ToastContext';
-import { validatePassword } from '../utils/validation';
+import { useState, useEffect } from "react";
+import { X, Lock, Loader2, Eye, EyeOff } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import api from "../services/api";
+import { AUTH_URLS } from "../enum/apiUrl";
+import { useToast } from "../context/ToastContext";
+import { validatePassword } from "../utils/validation";
 
 const ChangePasswordModal = ({ isOpen, onClose }) => {
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showOld, setShowOld] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -18,9 +18,9 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (!isOpen) {
-      setOldPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
       setShowOld(false);
       setShowNew(false);
       setShowConfirm(false);
@@ -31,33 +31,36 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
     e.preventDefault();
 
     if (!oldPassword) {
-      addToast('Current password is required', 'error');
+      addToast("Current password is required", "error");
       return;
     }
 
     const passwordError = validatePassword(newPassword);
     if (passwordError) {
-      addToast(passwordError, 'error');
+      addToast(passwordError, "error");
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      addToast('Passwords do not match', 'error');
+      addToast("Passwords do not match", "error");
       return;
     }
 
     if (oldPassword === newPassword) {
-      addToast('New password must be different from current password', 'error');
+      addToast("New password must be different from current password", "error");
       return;
     }
 
     setLoading(true);
     try {
       await api.post(AUTH_URLS.CHANGE_PASSWORD, { oldPassword, newPassword });
-      addToast('Password changed successfully!');
+      addToast("Password changed successfully!");
       onClose();
     } catch (err) {
-      addToast(err.response?.data?.message || 'Failed to change password', 'error');
+      addToast(
+        err.response?.data?.message || "Failed to change password",
+        "error",
+      );
     } finally {
       setLoading(false);
     }
@@ -91,16 +94,22 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
                 <Lock size={24} />
               </div>
-              <h2 className="text-xl font-bold text-slate-900">Change Password</h2>
-              <p className="text-sm text-slate-500 mt-1">Update your account security</p>
+              <h2 className="text-xl font-bold text-slate-900">
+                Change Password
+              </h2>
+              <p className="text-sm text-slate-500 mt-1">
+                Update your account security
+              </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="relative">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">Current Password</label>
+                <label className="mb-1 block text-sm font-semibold text-slate-700">
+                  Current Password
+                </label>
                 <div className="relative">
                   <input
-                    type={showOld ? 'text' : 'password'}
+                    type={showOld ? "text" : "password"}
                     required
                     placeholder="••••••••"
                     className="w-full rounded-lg border border-slate-300 p-3 pr-10 text-slate-900 outline-none focus:border-indigo-600 transition-all"
@@ -118,10 +127,12 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
               </div>
 
               <div className="relative">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">New Password</label>
+                <label className="mb-1 block text-sm font-semibold text-slate-700">
+                  New Password
+                </label>
                 <div className="relative">
                   <input
-                    type={showNew ? 'text' : 'password'}
+                    type={showNew ? "text" : "password"}
                     required
                     placeholder="••••••••"
                     className="w-full rounded-lg border border-slate-300 p-3 pr-10 text-slate-900 outline-none focus:border-indigo-600 transition-all"
@@ -139,10 +150,12 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
               </div>
 
               <div className="relative">
-                <label className="mb-1 block text-sm font-semibold text-slate-700">Confirm New Password</label>
+                <label className="mb-1 block text-sm font-semibold text-slate-700">
+                  Confirm New Password
+                </label>
                 <div className="relative">
                   <input
-                    type={showConfirm ? 'text' : 'password'}
+                    type={showConfirm ? "text" : "password"}
                     required
                     placeholder="••••••••"
                     className="w-full rounded-lg border border-slate-300 p-3 pr-10 text-slate-900 outline-none focus:border-indigo-600 transition-all"
@@ -172,7 +185,11 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
                   disabled={loading}
                   className="flex-[2] rounded-lg bg-indigo-600 py-3 font-semibold text-white hover:bg-indigo-700 transition-all shadow-md disabled:opacity-50"
                 >
-                  {loading ? <Loader2 className="animate-spin mx-auto" size={20} /> : 'Update Password'}
+                  {loading ? (
+                    <Loader2 className="animate-spin mx-auto" size={20} />
+                  ) : (
+                    "Update Password"
+                  )}
                 </button>
               </div>
             </form>

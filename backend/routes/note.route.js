@@ -1,16 +1,18 @@
-import { Router } from 'express';
-import { getNotes, createNote, updateNote, deleteNote } from '../controllers/note.controller.js';
-import { protect } from '../middleware/auth.middleware.js';
-import { noteValidation } from '../utils/validation.js';
+import { Router } from "express";
+import * as noteController from "../controllers/note.controller.js";
+import { protect } from "../middleware/auth.middleware.js";
+import * as validation from "../utils/validation.js";
 
 const router = Router();
 
-router.route('/')
-  .get(protect, getNotes)
-  .post(protect, noteValidation, createNote);
-
-router.route('/:id')
-  .put(protect, updateNote)
-  .delete(protect, deleteNote);
+router.use(protect);
+router
+  .route("/")
+  .get(noteController.getNotes)
+  .post(validation.noteValidation, noteController.createNote);
+router
+  .route("/:id")
+  .put(validation.noteValidation, noteController.updateNote)
+  .delete(noteController.deleteNote);
 
 export default router;

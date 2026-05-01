@@ -1,35 +1,39 @@
-import { X, Pin, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { X, Pin, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const NoteModal = ({ 
-  isOpen, 
-  onClose, 
-  onSubmit, 
-  title, setTitle, 
-  content, setContent, 
-  tags, setTags, 
-  isPinned, setIsPinned,
+const NoteModal = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  title,
+  setTitle,
+  content,
+  setContent,
+  tags,
+  setTags,
+  isPinned,
+  setIsPinned,
   submitting,
-  isEditing
+  isEditing,
 }) => {
   return (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
             className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"
           />
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className="bg-white w-full max-w-xl rounded-xl p-8 shadow-xl relative"
           >
-            <button 
+            <button
               onClick={onClose}
               className="absolute right-4 top-4 text-slate-400 hover:text-slate-600"
             >
@@ -37,14 +41,16 @@ const NoteModal = ({
             </button>
 
             <h2 className="mb-6 text-xl font-bold text-slate-900">
-              {isEditing ? 'Edit Note' : 'New Note'}
+              {isEditing ? "Edit Note" : "New Note"}
             </h2>
 
             <form onSubmit={onSubmit} className="space-y-5">
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Title</label>
-                <input 
-                  type="text" 
+                <label className="mb-1.5 block text-sm font-semibold text-slate-700">
+                  Title
+                </label>
+                <input
+                  type="text"
                   required
                   placeholder="Enter title..."
                   className="w-full rounded-lg border border-slate-300 p-3 text-slate-900 outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all"
@@ -54,8 +60,10 @@ const NoteModal = ({
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Content</label>
-                <textarea 
+                <label className="mb-1.5 block text-sm font-semibold text-slate-700">
+                  Content
+                </label>
+                <textarea
                   rows={6}
                   required
                   placeholder="Write your note here..."
@@ -66,9 +74,11 @@ const NoteModal = ({
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Tags</label>
-                <input 
-                  type="text" 
+                <label className="mb-1.5 block text-sm font-semibold text-slate-700">
+                  Tags
+                </label>
+                <input
+                  type="text"
                   placeholder="Work, Personal, Ideas (separated by comma)"
                   className="w-full rounded-lg border border-slate-300 p-3 text-slate-900 outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all"
                   value={tags}
@@ -80,10 +90,10 @@ const NoteModal = ({
                 <button
                   type="button"
                   onClick={() => setIsPinned(!isPinned)}
-                  className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-all ${isPinned ? 'border-indigo-600 bg-indigo-50 text-indigo-600' : 'border-slate-300 bg-white text-slate-500 hover:bg-slate-50'}`}
+                  className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-all ${isPinned ? "border-indigo-600 bg-indigo-50 text-indigo-600" : "border-slate-300 bg-white text-slate-500 hover:bg-slate-50"}`}
                 >
-                  <Pin size={16} fill={isPinned ? 'currentColor' : 'none'} />
-                  {isPinned ? 'Pinned' : 'Pin Note'}
+                  <Pin size={16} fill={isPinned ? "currentColor" : "none"} />
+                  {isPinned ? "Pinned" : "Pin Note"}
                 </button>
               </div>
 
@@ -100,7 +110,13 @@ const NoteModal = ({
                   disabled={submitting}
                   className="flex-[2] rounded-lg bg-indigo-600 py-3 font-semibold text-white hover:bg-indigo-700 transition-all shadow-md disabled:opacity-50"
                 >
-                  {submitting ? <Loader2 className="animate-spin mx-auto" size={20} /> : isEditing ? 'Save Changes' : 'Create Note'}
+                  {submitting ? (
+                    <Loader2 className="animate-spin mx-auto" size={20} />
+                  ) : isEditing ? (
+                    "Save Changes"
+                  ) : (
+                    "Create Note"
+                  )}
                 </button>
               </div>
             </form>

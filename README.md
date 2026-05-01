@@ -63,6 +63,8 @@ A full-stack note management application built with the MERN stack (MongoDB, Exp
 ### Auth Routes
 - `POST /api/auth/register` - Create a new account
 - `POST /api/auth/login` - Sign in
+- `GET /api/auth/edit-user` - Update user profile (Protected)
+- `GET /api/auth/change-password` - Change user password (Protected)
 
 ### Notes Routes (Protected)
 - `GET /api/notes` - Get all user notes

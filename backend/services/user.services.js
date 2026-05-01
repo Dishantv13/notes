@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
-import { User } from '../models/user.model.js';
-import ApiError from '../utils/apiError.js';
-import { HTTP_STATUS } from '../utils/httpCode.js';
+import jwt from "jsonwebtoken";
+import { User } from "../models/user.model.js";
+import ApiError from "../utils/apiError.js";
+import { HTTP_STATUS } from "../utils/httpCode.js";
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -14,7 +14,7 @@ export const registerUser = async (userData) => {
 
   const userExists = await User.findOne({ email });
   if (userExists) {
-    throw new ApiError(400, 'User already exists');
+    throw new ApiError(HTTP_STATUS.BAD_REQUEST, "User already exists");
   }
 
   const user = await User.create({
@@ -24,7 +24,7 @@ export const registerUser = async (userData) => {
   });
 
   if (!user) {
-    throw new ApiError(HTTP_STATUS.BAD_REQUEST, 'Invalid user data');
+    throw new ApiError(HTTP_STATUS.BAD_REQUEST, "Invalid user data");
   }
 
   return {
@@ -41,7 +41,6 @@ export const loginUser = async (credentials) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.isPasswordCorrect(password))) {
-
     return {
       _id: user._id,
       name: user.name,
@@ -49,24 +48,27 @@ export const loginUser = async (credentials) => {
       token: generateToken(user._id),
     };
   } else {
-    throw new ApiError(HTTP_STATUS.UNAUTHORIZED, 'Invalid email or password');
+    throw new ApiError(HTTP_STATUS.UNAUTHORIZED, "Invalid email or password");
   }
 };
 
 export const changePassword = async (userId, oldPassword, newPassword) => {
   const user = await User.findById(userId);
   if (!user) {
-    throw new ApiError(HTTP_STATUS.NOT_FOUND, 'User not found');
+    throw new ApiError(HTTP_STATUS.NOT_FOUND, "User not found");
   }
 
   const isCorrect = await user.isPasswordCorrect(oldPassword);
   if (!isCorrect) {
-    throw new ApiError(HTTP_STATUS.UNAUTHORIZED, 'Incorrect current password');
+    throw new ApiError(HTTP_STATUS.UNAUTHORIZED, "Incorrect current password");
   }
 
   const isSame = await user.isPasswordCorrect(newPassword);
   if (isSame) {
-    throw new ApiError(HTTP_STATUS.BAD_REQUEST, 'New password cannot be the same as the current password');
+    throw new ApiError(
+      HTTP_STATUS.BAD_REQUEST,
+      "New password cannot be the same as the current password",
+    );
   }
 
   user.password = newPassword;
@@ -74,15 +76,14 @@ export const changePassword = async (userId, oldPassword, newPassword) => {
   return true;
 };
 
-
 export const editUser = async (userId, name) => {
   const user = await User.findById(userId);
   if (!user) {
-    throw new ApiError(HTTP_STATUS.NOT_FOUND, 'User not found');
+    throw new ApiError(HTTP_STATUS.NOT_FOUND, "User not found");
   }
-  
-  if(!name){
-    throw new ApiError(HTTP_STATUS.BAD_REQUEST, 'Name is required');
+
+  if (!name) {
+    throw new ApiError(HTTP_STATUS.BAD_REQUEST, "Name is required");
   }
 
   user.name = name;

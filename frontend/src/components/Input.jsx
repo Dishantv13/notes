@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const Input = ({ label, icon: Icon, type, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const isPassword = type === 'password';
+  const isPassword = type === "password";
 
   return (
     <div className="space-y-1.5">
@@ -14,10 +14,10 @@ const Input = ({ label, icon: Icon, type, ...props }) => {
             <Icon size={18} />
           </div>
         )}
-        <input 
+        <input
           {...props}
-          type={isPassword ? (showPassword ? 'text' : 'password') : type}
-          className={`w-full rounded-lg bg-white border border-slate-300 py-3 ${Icon ? 'pl-10' : 'pl-4'} ${isPassword ? 'pr-10' : 'pr-4'} text-slate-900 outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all placeholder:text-slate-400 shadow-sm`}
+          type={isPassword ? (showPassword ? "text" : "password") : type}
+          className={`w-full rounded-lg bg-white border border-slate-300 py-3 ${Icon ? "pl-10" : "pl-4"} ${isPassword ? "pr-10" : "pr-4"} text-slate-900 outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all placeholder:text-slate-400 shadow-sm`}
         />
         {isPassword && (
           <button

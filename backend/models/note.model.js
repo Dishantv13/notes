@@ -1,39 +1,35 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const noteSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: [true, 'Title is required'],
-    trim: true
+const noteSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: [true, "Title is required"],
+      trim: true,
+    },
+    content: {
+      type: String,
+      required: [true, "Content is required"],
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    isPinned: {
+      type: Boolean,
+      default: false,
+    },
+    tags: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
   },
-  content: {
-    type: String,
-    required: [true, 'Content is required']
+  {
+    timestamps: true,
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  isPinned: {
-    type: Boolean,
-    default: false
-  },
-  tags: [{
-    type: String,
-    trim: true
-  }],
-  isDeleted: {
-    type: Boolean,
-    default: false
-  }
-}, {
-  timestamps: true
-});
+);
 
-noteSchema.pre(/^find/, function() {
-  this.find({ isDeleted: { $ne: true } });
-});
-
-export const Note = mongoose.model('Note', noteSchema);
-
+export const Note = mongoose.model("Note", noteSchema);

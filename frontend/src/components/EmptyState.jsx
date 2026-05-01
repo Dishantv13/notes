@@ -1,4 +1,4 @@
-import { StickyNote } from 'lucide-react';
+import { StickyNote } from "lucide-react";
 
 const EmptyState = () => {
   return (
@@ -7,7 +7,9 @@ const EmptyState = () => {
         <StickyNote size={40} />
       </div>
       <h3 className="text-xl font-bold text-slate-900">No notes found</h3>
-      <p className="mt-2 text-slate-500">Your notes will appear here once you create them.</p>
+      <p className="mt-2 text-slate-500">
+        Your notes will appear here once you create them.
+      </p>
     </div>
   );
 };

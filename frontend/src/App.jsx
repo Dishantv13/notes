@@ -5,6 +5,7 @@ import ProtectedRoute from './context/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
+import { ROUTE_PATH } from './enum/routePath';
 
 function App() {
   return (
@@ -12,17 +13,18 @@ function App() {
         <AuthProvider>
           <div className="min-h-screen bg-slate-50">
             <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+              <Route path={ROUTE_PATH.LOGIN} element={<LoginPage />} />
+              <Route path={ROUTE_PATH.REGISTER} element={<RegisterPage />} />
               <Route 
-                path="/dashboard" 
+                path={ROUTE_PATH.DASHBOARD} 
                 element={
                   <ProtectedRoute>
                     <Dashboard />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path={ROUTE_PATH.HOME} element={<Navigate to={ROUTE_PATH.DASHBOARD} replace />} />
+              <Route path={ROUTE_PATH.NOTFOUND} element={<Navigate to={ROUTE_PATH.DASHBOARD} replace />} />
             </Routes>
           </div>
         </AuthProvider>

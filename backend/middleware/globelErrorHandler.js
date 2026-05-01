@@ -1,11 +1,12 @@
 import ApiError from "../utils/apiError.js";
+import { HTTP_STATUS } from "../utils/httpCode.js";
 
 const globalErrorHandler = (err, req, res, next) => {
-  console.error('Error Details:', err);
+  console.error("Error Details:", err);
   let { statusCode, message } = err;
 
   if (!(err instanceof ApiError)) {
-    statusCode = statusCode || 500;
+    statusCode = statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR;
     message = message || "Internal server error";
   }
 
@@ -13,7 +14,7 @@ const globalErrorHandler = (err, req, res, next) => {
     success: false,
     message,
     ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
-    ...(err.errors && { errors: err.errors })
+    ...(err.errors && { errors: err.errors }),
   };
 
   res.status(statusCode).json(response);

@@ -1,16 +1,17 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { useToast } from '../context/ToastContext';
-import { LogIn, Mail, Lock, Loader2 } from 'lucide-react';
-import { motion } from 'framer-motion';
-import Input from '../components/Input';
-import { validateEmail } from '../utils/validation';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
+import { LogIn, Mail, Lock, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { validateEmail } from "../utils/validation";
+import { ROUTE_PATH } from "../enum/routePath";
+import Input from "../components/Input";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const { addToast } = useToast();
@@ -18,28 +19,28 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     const emailError = validateEmail(email);
     if (emailError) {
       setError(emailError);
-      addToast(emailError, 'error');
+      addToast(emailError, "error");
       return;
     }
 
     if (!password) {
-      setError('Password is required');
-      addToast('Password is required', 'error');
+      setError("Password is required");
+      addToast("Password is required", "error");
       return;
     }
 
     setLoading(true);
     try {
       await login(email, password);
-      addToast('Welcome back! Login successful.');
-      navigate('/dashboard');
+      addToast("Welcome back! Login successful.");
+      navigate(ROUTE_PATH.DASHBOARD);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to login');
+      setError(err.response?.data?.message || "Failed to login");
     } finally {
       setLoading(false);
     }
@@ -56,8 +57,12 @@ const LoginPage = () => {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
             <LogIn size={32} />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Sign In</h1>
-          <p className="mt-2 text-slate-500 text-sm">Access your notes anywhere, anytime</p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+            Sign In
+          </h1>
+          <p className="mt-2 text-slate-500 text-sm">
+            Access your notes anywhere, anytime
+          </p>
         </div>
 
         {error && (
@@ -92,13 +97,16 @@ const LoginPage = () => {
             disabled={loading}
             className="w-full flex items-center justify-center rounded-lg bg-indigo-600 py-3 font-semibold text-white transition-all hover:bg-indigo-700 active:scale-[0.99] disabled:opacity-50 shadow-sm"
           >
-            {loading ? <Loader2 className="animate-spin" size={20} /> : 'Login'}
+            {loading ? <Loader2 className="animate-spin" size={20} /> : "Login"}
           </button>
         </form>
 
         <p className="mt-8 text-center text-sm text-slate-500">
-          New here?{' '}
-          <Link to="/register" className="font-semibold text-indigo-600 hover:underline">
+          New here?{" "}
+          <Link
+            to={ROUTE_PATH.REGISTER}
+            className="font-semibold text-indigo-600 hover:underline"
+          >
             Create an account
           </Link>
         </p>
